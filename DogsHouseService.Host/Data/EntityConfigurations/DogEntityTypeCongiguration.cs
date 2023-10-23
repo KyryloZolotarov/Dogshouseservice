@@ -14,17 +14,20 @@ namespace DogsHouseService.Host.Data.EntityConfigurations
                 .IsClustered();
 
             builder.Property(ci => ci.Name)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(30);
 
             builder.Property(cb => cb.Color)
                 .IsRequired()
                 .HasMaxLength(100);
 
             builder.Property(cb => cb.TailLength)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValue(0);
 
             builder.Property(cb => cb.Weight)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValue(0);
         }
     }
 }

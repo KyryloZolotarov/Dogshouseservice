@@ -12,10 +12,10 @@ namespace DogsHouseService.Host.Migrations
                 name: "Dogs",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Color = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TailLength = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<int>(type: "int", nullable: false)
+                    TailLength = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    Weight = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {

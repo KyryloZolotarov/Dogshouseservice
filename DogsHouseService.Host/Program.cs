@@ -6,6 +6,7 @@ using DogsHouseService.Host.Repositories.Interfaces;
 using DogsHouseService.Host.Repositories;
 using AspNetCoreRateLimit;
 using Microsoft.Extensions.Configuration;
+using FluentValidation.AspNetCore;
 
 namespace DogsHouseService.Host;
 
@@ -25,7 +26,8 @@ public class Program
         builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
             opts.UseSqlServer(configuration["ConnectionString"]));
         builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();        
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddFluentValidation(fluentValidtor => fluentValidtor.RegisterValidatorsFromAssemblyContaining<Program>().ImplicitlyValidateChildProperties = true);
 
         builder.Services.AddOptions();
         builder.Services.AddMemoryCache();

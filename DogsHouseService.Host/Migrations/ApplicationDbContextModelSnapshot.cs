@@ -24,7 +24,8 @@ namespace DogsHouseService.Host.Migrations
             modelBuilder.Entity("DogsHouseService.Host.Data.Entities.DogEntity", b =>
                 {
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -32,10 +33,14 @@ namespace DogsHouseService.Host.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("TailLength")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Weight")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Name");
 
