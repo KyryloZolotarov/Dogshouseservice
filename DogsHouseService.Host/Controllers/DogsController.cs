@@ -6,6 +6,7 @@ using System.Net;
 
 namespace DogsHouseService.Host.Controllers
 {
+    [Route("dogs")]
     [ApiController]
     public class DogsController : ControllerBase
     {
@@ -14,30 +15,14 @@ namespace DogsHouseService.Host.Controllers
         public DogsController(IDogsService dogsService)
         {
             _dogsService = dogsService;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public IActionResult Ping()
-        {
-            return Ok("Dogshouseservice.Version1.0.1");
-        }
+        }        
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DogDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Dogs([FromQuery] GetDogsQweryParametrs param)
+        public async Task<IActionResult> GetDogsAsync([FromQuery] GetDogsQweryParametrs param, CancellationToken cancellationToken)
         {
-            var result = await _dogsService.GetDogs();
+            var result = await _dogsService.GetDogsAsync(param, cancellationToken);
             return Ok(result);
-        }
-
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Dog(string name, string color, int tailLength, int weight)
-        {
-            var dog = new DogDto() { Name = name, Color = color, TailLength = tailLength, Weight = weight };
-            await _dogsService.AddDog(dog);
-            return Ok();
         }
     }
 }

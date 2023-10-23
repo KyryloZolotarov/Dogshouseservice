@@ -10,10 +10,8 @@ namespace DogsHouseService.Host.Data.EntityConfigurations
         {
             builder.ToTable("Dogs");
 
-            builder.HasKey(ci => ci.Id);
-
-            builder.Property(ci => ci.Id)
-                .UseHiLo();
+            builder.HasKey(ci => ci.Name)
+                .IsClustered();
 
             builder.Property(ci => ci.Name)
                 .IsRequired();

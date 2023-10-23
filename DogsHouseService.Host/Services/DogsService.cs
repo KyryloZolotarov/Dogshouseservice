@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogsHouseService.Host.Data;
 using DogsHouseService.Host.Data.Entities;
+using DogsHouseService.Host.Models;
 using DogsHouseService.Host.Models.Dtos;
 using DogsHouseService.Host.Repositories.Interfaces;
 using DogsHouseService.Host.Services.Interfaces;
@@ -24,23 +25,23 @@ namespace DogsHouseService.Host.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DogDto>> GetDogs()
+        public async Task<IEnumerable<DogDto>> GetDogsAsync(GetDogsQweryParametrs param, CancellationToken cancellationToken)
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var result = await _dogsRepository.GetGogs();
+                var result = await _dogsRepository.GetGogsAsync(param);
                 var mappedResult = result.Select(s => _mapper.Map<DogDto>(s)).ToList();
                 return mappedResult;
-            });
+            }, cancellationToken);
         }
 
-        public async Task AddDog(DogDto dog)
+        public async Task AddDogAsync(DogDto dog, CancellationToken cancellationToken)
         {
             await ExecuteSafeAsync(async () =>
             {
                 var mappedDog = _mapper.Map<DogEntity>(dog);
-                await _dogsRepository.AddDog(mappedDog);
-            });
+                await _dogsRepository.AddDogAsync(mappedDog);
+            }, cancellationToken);
 
         }
     }

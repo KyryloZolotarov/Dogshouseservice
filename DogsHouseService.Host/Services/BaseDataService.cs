@@ -1,6 +1,10 @@
 using DogsHouseService.Host.Exceptions;
 using DogsHouseService.Host.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Data.Common;
+using System.Net;
 
 namespace DogsHouseService.Host.Services;
 
@@ -38,6 +42,11 @@ public abstract class BaseDataService<T>
 
             await transaction.CommitAsync(cancellationToken);
         }
+        catch (DbUpdateException ex)
+        when ((ex.InnerException as SqlException)?.Number == 2627)
+        {
+            throw new BadHttpRequestException("Dog with requested name allready exists", 400);
+        }
         catch (BusinessException ex)
         {
             await transaction.RollbackAsync(cancellationToken);
@@ -48,6 +57,7 @@ public abstract class BaseDataService<T>
         {
             await transaction.RollbackAsync(cancellationToken);
             _logger.LogError(ex, "transaction is rollbacked");
+            throw;
         }
     }
 
@@ -63,6 +73,10 @@ public abstract class BaseDataService<T>
 
             return result;
         }
+        catch (DbUpdateException ex)
+        {
+            throw;
+        }
         catch (BusinessException ex)
         {
             await transaction.RollbackAsync(cancellationToken);
@@ -73,6 +87,7 @@ public abstract class BaseDataService<T>
         {
             await transaction.RollbackAsync(cancellationToken);
             _logger.LogError(ex, "transaction is rollbacked");
+            throw;
         }
 
         return default!;

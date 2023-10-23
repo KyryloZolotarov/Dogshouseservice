@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogsHouseService.Tests", "DogsHouseService.Tests\DogsHouseService.Tests.csproj", "{A09DE30D-FB15-433C-BF3C-D032B24F1816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{1CCEA408-7390-4232-8608-A597D9796FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CCEA408-7390-4232-8608-A597D9796FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CCEA408-7390-4232-8608-A597D9796FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09DE30D-FB15-433C-BF3C-D032B24F1816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09DE30D-FB15-433C-BF3C-D032B24F1816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09DE30D-FB15-433C-BF3C-D032B24F1816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09DE30D-FB15-433C-BF3C-D032B24F1816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1CCEA408-7390-4232-8608-A597D9796FA4} = {2C94A8D9-F039-4C3E-B957-6B4A59F322C1}
+		{A09DE30D-FB15-433C-BF3C-D032B24F1816} = {2C94A8D9-F039-4C3E-B957-6B4A59F322C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6B0E847-FBBA-41B3-BD11-BAF5E2F420A9}

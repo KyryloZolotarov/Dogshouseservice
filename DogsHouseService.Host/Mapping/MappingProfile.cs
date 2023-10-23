@@ -8,7 +8,7 @@ namespace DogsHouseService.Host.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<DogDto, DogEntity>();
+            CreateMap<DogDto, DogEntity>().ReverseMap();
         }
     }
 }

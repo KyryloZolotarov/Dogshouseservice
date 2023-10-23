@@ -1,10 +1,11 @@
 using DogsHouseService.Host.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using DogsHouseService.Host.Services;
 using DogsHouseService.Host.Services.Interfaces;
 using DogsHouseService.Host.Repositories.Interfaces;
 using DogsHouseService.Host.Repositories;
+using AspNetCoreRateLimit;
+using Microsoft.Extensions.Configuration;
 
 namespace DogsHouseService.Host;
 
@@ -23,8 +24,26 @@ public class Program
 
         builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
             opts.UseSqlServer(configuration["ConnectionString"]));
-        builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
+        builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();        
+        builder.Services.AddControllers();
+
+        builder.Services.AddOptions();
+        builder.Services.AddMemoryCache();
+        builder.Services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+        builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+        builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        builder.Services.AddInMemoryRateLimiting();
         var app = builder.Build();
+
+        app.UseRouting();
+        app.UseIpRateLimiting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+        app.MapGet("/ping", () => "Dogshouseservice.Version1.0.1");
 
         CreateDbIfNotExists(app);
         app.Run();
