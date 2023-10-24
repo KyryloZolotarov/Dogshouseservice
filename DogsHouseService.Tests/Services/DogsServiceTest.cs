@@ -15,6 +15,7 @@ using Moq;
 using Microsoft.EntityFrameworkCore.Storage;
 using DogsHouseService.Host.Data.Entities;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 
 namespace DogsHouseService.Tests.Services
 {
@@ -120,6 +121,79 @@ namespace DogsHouseService.Tests.Services
             await Assert.ThrowsAsync<ArgumentNullException>(async () => { 
                 var result = await dogsService.GetDogsAsync(paramMock, cancellationTokenMock);
             });
+        }
+        [Fact]
+        public async Task AddDogAsync_Succesfully()
+        {
+            var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
+            var loggerMock = new Mock<ILogger<DogsService>>();
+            var dogsRepositoryMock = new Mock<IDogsRepository>();
+
+            var dbContextTransactionMock = new Mock<IDbContextTransaction>();
+            dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
+                .ReturnsAsync(dbContextTransactionMock.Object);
+
+            var dogEntitySucces = new DogEntity()
+            {
+                Name = "Test",
+                Color = "Test_Color",
+                TailLength = 10,
+                Weight = 3
+            };
+
+            var dogDtoSucces = new DogDto()
+            {
+                Name = "Test",
+                Color = "Test_Color",
+                TailLength = 10,
+                Weight = 3
+            };
+
+            var mapperMock = new Mock<IMapper>();
+            mapperMock.Setup(s => s.Map<DogDto>(
+                It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
+
+            dogsRepositoryMock.Setup(h => h.AddDogAsync(It.IsAny<DogEntity>())).Returns(Task.CompletedTask);
+
+            var dogsService = new DogsService(
+                dogsRepositoryMock.Object,
+                loggerMock.Object,
+                dbContextWrapperMock.Object,
+                mapperMock.Object);
+
+            await dogsService.AddDogAsync(dogDtoSucces, CancellationToken.None);
+            mapperMock.Verify(m => m.Map<DogEntity>(dogDtoSucces), Times.Once);
+            dogsRepositoryMock.Verify(r => r.AddDogAsync(dogEntitySucces), Times.Once);
+        }
+        [Fact]
+        public async Task AddDogAsync_Failed()
+        {
+            var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
+            var loggerMock = new Mock<ILogger<DogsService>>();
+            var dogsRepositoryMock = new Mock<IDogsRepository>();
+
+            var dbContextTransactionMock = new Mock<IDbContextTransaction>();
+            dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
+                .ReturnsAsync(dbContextTransactionMock.Object);
+
+            var dogEntitySucces = new DogEntity();
+
+            var dogDtoSucces = new DogDto();
+
+            var cancellationTokenMock = new CancellationToken();
+            var mapperMock = new Mock<IMapper>();
+            mapperMock.Setup(s => s.Map<DogDto>(
+                It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
+
+            dogsRepositoryMock.Setup(h => h.AddDogAsync(It.IsAny<DogEntity>())).Returns(Task.CompletedTask);
+
+            var dogsService = new DogsService(
+                dogsRepositoryMock.Object,
+                loggerMock.Object,
+                dbContextWrapperMock.Object,
+                mapperMock.Object);
+
+            await dogsService.AddDogAsync(dogDtoSucces, cancellationTokenMock);
         }
     }
 }
