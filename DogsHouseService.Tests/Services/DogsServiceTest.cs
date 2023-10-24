@@ -65,7 +65,7 @@ namespace DogsHouseService.Tests.Services
                 It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
 
 
-            dogsRepositoryMock.Setup(h => h.GetGogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync(dogsRepositoryResultMock);
+            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync(dogsRepositoryResultMock);
 
             var dogsService = new DogsService(
                 dogsRepositoryMock.Object,
@@ -81,7 +81,7 @@ namespace DogsHouseService.Tests.Services
             }
 
             Assert.Equal(dogsServiceResultMock, result);
-            dogsRepositoryMock.Verify(x => x.GetGogsAsync(It.IsAny<GetDogsQweryParametrs>()), Times.Once());
+            dogsRepositoryMock.Verify(x => x.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>()), Times.Once());
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace DogsHouseService.Tests.Services
                 It.Is<List<DogEntity>>(i => i.Equals(dogsRepositoryMock)))).Returns(dogsServiceResultMock);
 
 
-            dogsRepositoryMock.Setup(h => h.GetGogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync((Func<List<DogEntity>>)null!);
+            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync((Func<List<DogEntity>>)null!);
 
             var dogsService = new DogsService(
                 dogsRepositoryMock.Object,
@@ -150,8 +150,8 @@ namespace DogsHouseService.Tests.Services
             };
 
             var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(s => s.Map<DogDto>(
-                It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
+            mapperMock.Setup(s => s.Map<DogEntity>(
+                It.Is<DogDto>(i => i.Equals(dogDtoSucces)))).Returns(dogEntitySucces);
 
             dogsRepositoryMock.Setup(h => h.AddDogAsync(It.IsAny<DogEntity>())).Returns(Task.CompletedTask);
 

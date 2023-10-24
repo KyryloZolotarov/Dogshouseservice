@@ -29,7 +29,7 @@ namespace DogsHouseService.Host.Services
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var result = await _dogsRepository.GetGogsAsync(param);
+                var result = await _dogsRepository.GetDogsAsync(param);
                 var mappedResult = result.Select(s => _mapper.Map<DogDto>(s)).ToList();
                 return mappedResult;
             }, cancellationToken);
