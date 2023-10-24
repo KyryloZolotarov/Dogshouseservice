@@ -53,7 +53,11 @@ namespace DogsHouseService.Tests.Services
 
             var cancellationTokenMock = new CancellationToken();
 
-            var paramMock = new GetDogsQweryParametrs();
+            var paramMock = new GetDogsQueryParametrs() 
+            {
+                Attribute = "Color",
+                Order = "Asc"
+            };
 
             dogsRepositoryResultMock.Add(dogEntitySucces);
             dogsServiceResultMock.Add(dogDtoSucces);
@@ -65,7 +69,7 @@ namespace DogsHouseService.Tests.Services
                 It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
 
 
-            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync(dogsRepositoryResultMock);
+            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>())).ReturnsAsync(dogsRepositoryResultMock);
 
             var dogsService = new DogsService(
                 dogsRepositoryMock.Object,
@@ -81,7 +85,7 @@ namespace DogsHouseService.Tests.Services
             }
 
             Assert.Equal(dogsServiceResultMock, result);
-            dogsRepositoryMock.Verify(x => x.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>()), Times.Once());
+            dogsRepositoryMock.Verify(x => x.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>()), Times.Once());
         }
 
         [Fact]
@@ -100,7 +104,10 @@ namespace DogsHouseService.Tests.Services
 
             var cancellationTokenMock = new CancellationToken();
 
-            var paramMock = new GetDogsQweryParametrs();
+            var paramMock = new GetDogsQueryParametrs() 
+            {
+                Attribute = "TailLength",
+            };
 
             IEnumerable<DogDto> dogs;
 
@@ -109,7 +116,7 @@ namespace DogsHouseService.Tests.Services
                 It.Is<List<DogEntity>>(i => i.Equals(dogsRepositoryMock)))).Returns(dogsServiceResultMock);
 
 
-            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>())).ReturnsAsync((Func<List<DogEntity>>)null!);
+            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>())).ReturnsAsync((Func<List<DogEntity>>)null!);
 
             var dogsService = new DogsService(
                 dogsRepositoryMock.Object,

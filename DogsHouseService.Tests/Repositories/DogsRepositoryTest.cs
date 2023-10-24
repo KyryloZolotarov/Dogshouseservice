@@ -44,7 +44,11 @@ namespace DogsHouseService.Tests.Repositories
             wrapper.DbContext.DogEntities.Add(dogEntitySucces);
             wrapper.DbContext.SaveChanges();
 
-            var queryParameters = new GetDogsQweryParametrs();
+            var queryParameters = new GetDogsQueryParametrs() 
+            {
+                Attribute = "Name",
+                Order = "desc"
+            };
             var repository = new DogsRepository(wrapper);
             var result = await repository.GetDogsAsync(queryParameters);
 
@@ -71,7 +75,7 @@ namespace DogsHouseService.Tests.Repositories
                 Weight = 3
             };
 
-            var queryParameters = new GetDogsQweryParametrs();
+            var queryParameters = new GetDogsQueryParametrs();
             var repository = new DogsRepository(wrapper);
             await repository.AddDogAsync(dogEntitySucces);
             var result = wrapper.DbContext.DogEntities.FirstOrDefault(x => x.Name == dogEntitySucces.Name);
@@ -99,7 +103,7 @@ namespace DogsHouseService.Tests.Repositories
             wrapper.DbContext.DogEntities.Add(dogEntitySucces);
             wrapper.DbContext.SaveChanges();
 
-            var queryParameters = new GetDogsQweryParametrs();
+            var queryParameters = new GetDogsQueryParametrs();
             var repository = new DogsRepository(wrapper);
             await Assert.ThrowsAsync<ArgumentException>(async () => {
                 await repository.AddDogAsync(dogEntitySucces);

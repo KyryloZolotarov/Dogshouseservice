@@ -21,7 +21,7 @@ namespace DogsHouseService.Tests.Controllers
         public async Task GetDogsAsync_ReturnesIEnumerableDogDto_Succesfully()
         {
             var dogsServiceMock = new Mock<IDogsService>();
-            var paramMock = new GetDogsQweryParametrs();
+            var paramMock = new GetDogsQueryParametrs();
 
             var dogDtoSucces = new DogDto()
             {
@@ -37,7 +37,7 @@ namespace DogsHouseService.Tests.Controllers
             var dogsControllerResultMock = new List<DogDto>();
             dogsControllerResultMock.Add(dogDtoSucces);
 
-            dogsServiceMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>(), It.IsAny<CancellationToken>())).ReturnsAsync(dogsServiceResultMock);
+            dogsServiceMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>(), It.IsAny<CancellationToken>())).ReturnsAsync(dogsServiceResultMock);
 
             var dogsController = new DogsController(
                 dogsServiceMock.Object);
@@ -45,14 +45,14 @@ namespace DogsHouseService.Tests.Controllers
             var result = await dogsController.GetDogsAsync(paramMock, CancellationToken.None);
             Assert.NotNull(result);
 
-            dogsServiceMock.Verify(x => x.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>(), It.IsAny<CancellationToken>()), Times.Once());
+            dogsServiceMock.Verify(x => x.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
         [Fact]
         public async Task GetDogsAsync_ThrowsException_Failed()
         {
             var dogsServiceMock = new Mock<IDogsService>();
-            var paramMock = new GetDogsQweryParametrs();
+            var paramMock = new GetDogsQueryParametrs();
 
             var dogDtoSucces = new DogDto()
             {};
@@ -63,7 +63,7 @@ namespace DogsHouseService.Tests.Controllers
             var dogsControllerResultMock = new List<DogDto>();
             dogsControllerResultMock.Add(dogDtoSucces);
 
-            dogsServiceMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQweryParametrs>(), It.IsAny<CancellationToken>())).Throws<Exception>();
+            dogsServiceMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>(), It.IsAny<CancellationToken>())).Throws<Exception>();
 
             var dogsController = new DogsController(
                 dogsServiceMock.Object);

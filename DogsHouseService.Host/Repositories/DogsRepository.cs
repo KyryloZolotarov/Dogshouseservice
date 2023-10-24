@@ -23,7 +23,7 @@ namespace DogsHouseService.Host.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<DogEntity>> GetDogsAsync(GetDogsQweryParametrs param)
+        public Task<IEnumerable<DogEntity>> GetDogsAsync(GetDogsQueryParametrs param)
         {
             IQueryable<DogEntity> query = _dbContext.DogEntities;
             var result = query.SortBy(param.Attribute, param.Order)

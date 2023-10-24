@@ -1,6 +1,6 @@
 ﻿namespace DogsHouseService.Host.Models
 {
-    public class GetDogsQweryParametrs
+    public class GetDogsQueryParametrs
     {
         public string Attribute { get; set; } = "Id";
         public string Order { get; set; } = "Asc";

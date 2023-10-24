@@ -19,7 +19,7 @@ namespace DogsHouseService.Host.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DogDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetDogsAsync([FromQuery] GetDogsQweryParametrs param, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetDogsAsync([FromQuery] GetDogsQueryParametrs param, CancellationToken cancellationToken)
         {
             var result = await _dogsService.GetDogsAsync(param, cancellationToken);
             return Ok(result);

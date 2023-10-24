@@ -25,7 +25,7 @@ namespace DogsHouseService.Host.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DogDto>> GetDogsAsync(GetDogsQweryParametrs param, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DogDto>> GetDogsAsync(GetDogsQueryParametrs param, CancellationToken cancellationToken)
         {
             return await ExecuteSafeAsync(async () =>
             {

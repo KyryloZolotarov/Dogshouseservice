@@ -5,7 +5,7 @@ namespace DogsHouseService.Host.Repositories.Interfaces
 {
     public interface IDogsRepository
     {
-        Task<IEnumerable<DogEntity>> GetDogsAsync(GetDogsQweryParametrs param);
+        Task<IEnumerable<DogEntity>> GetDogsAsync(GetDogsQueryParametrs param);
         Task AddDogAsync(DogEntity dog);
     }
 }
