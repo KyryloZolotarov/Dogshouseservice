@@ -1,4 +1,3 @@
-using DogsHouseService.Host.Exceptions;
 using DogsHouseService.Host.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -47,12 +46,6 @@ public abstract class BaseDataService<T>
         {
             throw new BadHttpRequestException("Dog with requested name allready exists", 400);
         }
-        catch (BusinessException ex)
-        {
-            await transaction.RollbackAsync(cancellationToken);
-            _logger.LogError(ex, "transaction is rollbacked");
-            throw;
-        }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
@@ -75,12 +68,6 @@ public abstract class BaseDataService<T>
         }
         catch (DbUpdateException ex)
         {
-            throw;
-        }
-        catch (BusinessException ex)
-        {
-            await transaction.RollbackAsync(cancellationToken);
-            _logger.LogError(ex, "transaction is rollbacked");
             throw;
         }
         catch (Exception ex)
