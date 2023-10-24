@@ -68,6 +68,8 @@ public abstract class BaseDataService<T>
         }
         catch (DbUpdateException ex)
         {
+            await transaction.RollbackAsync(cancellationToken);
+            _logger.LogError(ex, "transaction is rollbacked");
             throw;
         }
         catch (Exception ex)
@@ -76,7 +78,5 @@ public abstract class BaseDataService<T>
             _logger.LogError(ex, "transaction is rollbacked");
             throw;
         }
-
-        return default!;
     }
 }

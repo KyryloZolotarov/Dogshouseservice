@@ -62,8 +62,6 @@ namespace DogsHouseService.Tests.Services
             dogsRepositoryResultMock.Add(dogEntitySucces);
             dogsServiceResultMock.Add(dogDtoSucces);
 
-            IEnumerable<DogDto> dogs;
-
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(s => s.Map<DogDto>(
                 It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
@@ -108,8 +106,6 @@ namespace DogsHouseService.Tests.Services
             {
                 Attribute = "tailLength",
             };
-
-            IEnumerable<DogDto> dogs;
 
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(s => s.Map<List<DogDto>>(
