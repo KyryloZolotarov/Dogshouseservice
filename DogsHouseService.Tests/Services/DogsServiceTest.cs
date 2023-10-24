@@ -55,8 +55,8 @@ namespace DogsHouseService.Tests.Services
 
             var paramMock = new GetDogsQueryParametrs() 
             {
-                Attribute = "Color",
-                Order = "Asc"
+                Attribute = "color",
+                Order = "asc"
             };
 
             dogsRepositoryResultMock.Add(dogEntitySucces);
@@ -106,7 +106,7 @@ namespace DogsHouseService.Tests.Services
 
             var paramMock = new GetDogsQueryParametrs() 
             {
-                Attribute = "TailLength",
+                Attribute = "tailLength",
             };
 
             IEnumerable<DogDto> dogs;

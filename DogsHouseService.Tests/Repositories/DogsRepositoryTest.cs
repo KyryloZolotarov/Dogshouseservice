@@ -46,7 +46,7 @@ namespace DogsHouseService.Tests.Repositories
 
             var queryParameters = new GetDogsQueryParametrs() 
             {
-                Attribute = "Name",
+                Attribute = "name",
                 Order = "desc"
             };
             var repository = new DogsRepository(wrapper);
